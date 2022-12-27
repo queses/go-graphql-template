@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  test_db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: 'pass'
+      POSTGRES_USER: 'postgres'
+    ports:
+      - '54331:5432'
+    volumes:
+      - type: tmpfs
+        target: /var/lib/postgresql/data
