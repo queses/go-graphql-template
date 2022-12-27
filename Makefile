@@ -1,5 +1,5 @@
 gen:
-	go run github.com/99designs/gqlgen
+	go generate ./...
 
 build:
 	go build src/server.go
