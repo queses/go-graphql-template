@@ -1,14 +1,14 @@
 package main
 
 import (
-	graph2 "github.com/queses/go-template/src/graph"
+	graph2 "github.com/queses/go-graphql-template/src/graph"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/queses/go-template/graph"
+	"github.com/queses/go-graphql-template/src/graph"
 )
 
 const defaultPort = "8080"

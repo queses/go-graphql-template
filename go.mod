@@ -1,4 +1,4 @@
-module github.com/queses/go-template
+module github.com/queses/go-graphql-template
 
 go 1.18
 
