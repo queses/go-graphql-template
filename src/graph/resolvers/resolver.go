@@ -3,12 +3,12 @@
 package resolvers
 
 import (
-	"github.com/jmoiron/sqlx"
 	"github.com/queses/go-graphql-template/src/graph"
+	"github.com/queses/go-graphql-template/src/lib"
 )
 
 type Resolver struct {
-	Db *sqlx.DB
+	Factory *lib.ServiceFactory
 }
 
 func (r *Resolver) Mutation() graph.MutationResolver {

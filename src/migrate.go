@@ -8,7 +8,7 @@ import (
 
 func main() {
 	m, err := migrate.New(
-		"file://src/migrate/migrations",
+		"file://src/migrations",
 		"postgres://postgres:pass@127.0.0.1:54331/postgres?sslmode=disable",
 	)
 

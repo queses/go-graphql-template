@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"github.com/queses/go-graphql-template/src/graph/resolvers"
+	"github.com/queses/go-graphql-template/src/lib"
 	"log"
 	"net/http"
 	"os"
@@ -21,23 +21,8 @@ func main() {
 		port = defaultPort
 	}
 
-	db, err := sqlx.Open(
-		"postgres",
-		"postgres://postgres:pass@127.0.0.1:54331/postgres?sslmode=disable",
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	defer func(db *sqlx.DB) {
-		err := db.Close()
-		if err != nil {
-			panic(err)
-		}
-	}(db)
-
 	resolver := &resolvers.Resolver{
-		Db: db,
+		Factory: lib.NewServiceFactory(),
 	}
 
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: resolver}))

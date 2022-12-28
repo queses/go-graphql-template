@@ -14,4 +14,4 @@ test-docker-down:
 	docker-compose -p go-graphql-template -f ./docker/test/docker-compose.yml down
 
 migrate:
-	go run src/migrate/migrate.go
+	go run src/migrate.go
