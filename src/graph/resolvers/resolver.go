@@ -24,18 +24,20 @@ type mutationResolver struct{ *Resolver }
 
 type queryResolver struct{ *Resolver }
 
-type stackTracer interface {
+type internalError interface {
+	error
 	StackTrace() errors.StackTrace
 }
 
-func onError(err error) {
+func transformError(err error) error {
 	var log string
-	withStack, ok := err.(stackTracer)
-	if ok {
-		log = fmt.Sprintf("%s%+v", err.Error(), withStack.StackTrace()[0:10])
-	} else {
-		log = err.Error()
+	internalErr, ok := err.(internalError)
+	if !ok {
+		return err
 	}
 
+	log = fmt.Sprintf("%s%+v", internalErr.Error(), internalErr.StackTrace()[0:10])
 	fmt.Println(log)
+
+	return errors.New("internal error")
 }
