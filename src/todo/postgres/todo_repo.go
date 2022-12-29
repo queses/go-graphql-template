@@ -17,7 +17,7 @@ func NewTodoRepo(db *sqlx.DB) *TodoRepo {
 
 func (r *TodoRepo) CreateTodo(ctx context.Context, text string) (*todo.TodoEntity, error) {
 	var rows []todo.TodoEntity
-	err := r.db.Select(&rows, "INSERT INTO todo (text) VALUES ($1) RETURNING id, text, done", text)
+	err := r.db.SelectContext(ctx, &rows, "INSERT INTO todo (text) VALUES ($1) RETURNING id, text, done", text)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
@@ -27,7 +27,7 @@ func (r *TodoRepo) CreateTodo(ctx context.Context, text string) (*todo.TodoEntit
 
 func (r *TodoRepo) ListTodos(ctx context.Context) ([]todo.TodoEntity, error) {
 	var rows []todo.TodoEntity
-	err := r.db.Select(&rows, "SELECT id, text, done FROM todo ORDER BY createdAt ASC")
+	err := r.db.SelectContext(ctx, &rows, "SELECT id, text, done, ABCD FROM todo ORDER BY createdAt ASC") // TODO
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}

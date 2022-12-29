@@ -3,10 +3,12 @@
 package resolvers
 
 import (
+	"context"
 	"fmt"
 	"github.com/pkg/errors"
 	"github.com/queses/go-graphql-template/src/graph"
 	"github.com/queses/go-graphql-template/src/lib"
+	"github.com/rs/zerolog/log"
 )
 
 type Resolver struct {
@@ -29,15 +31,14 @@ type internalError interface {
 	StackTrace() errors.StackTrace
 }
 
-func transformError(err error) error {
-	var log string
-	internalErr, ok := err.(internalError)
-	if !ok {
+func transformError(ctx context.Context, err error) error {
+	internalErr, isInternalErr := err.(internalError)
+	if !isInternalErr {
 		return err
 	}
 
-	log = fmt.Sprintf("%s%+v", internalErr.Error(), internalErr.StackTrace()[0:10])
-	fmt.Println(log)
-
+	errMessage := fmt.Sprintf("%s%+v", internalErr.Error(), internalErr.StackTrace()[0:10])
+	log.Ctx(ctx).Error().Msg(errMessage)
 	return errors.New("internal error")
+
 }
