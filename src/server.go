@@ -1,16 +1,15 @@
 package main
 
 import (
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
 	_ "github.com/lib/pq"
+	"github.com/queses/go-graphql-template/src/graph"
 	"github.com/queses/go-graphql-template/src/graph/resolvers"
 	"github.com/queses/go-graphql-template/src/lib"
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/queses/go-graphql-template/src/graph"
 )
 
 const defaultPort = "8080"
@@ -21,8 +20,11 @@ func main() {
 		port = defaultPort
 	}
 
+	factory := lib.NewServiceFactory()
+	defer factory.Close()
+
 	resolver := &resolvers.Resolver{
-		Factory: lib.NewServiceFactory(),
+		Factory: factory,
 	}
 
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: resolver}))

@@ -9,6 +9,7 @@ import (
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	entity, err := todo.NewCreate(r.Factory.TodoRepo).Run(ctx, input.Text)
 	if err != nil {
+		onError(err)
 		return nil, err
 	}
 
@@ -20,6 +21,7 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	entities, err := todo.NewList(r.Factory.TodoRepo).Run(ctx)
 	if err != nil {
+		onError(err)
 		return nil, err
 	}
 
